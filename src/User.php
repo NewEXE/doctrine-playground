@@ -6,6 +6,8 @@
  * Time: 18:11
  */
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity @Table(name="users")
  */
@@ -22,6 +24,27 @@ class User
      * @var string
      */
     protected $name;
+
+    /**
+     * @OneToMany(targetEntity="Bug", mappedBy="reporter")
+     * @var Bug[]
+     */
+    protected $reportedBugs;
+
+    /**
+     * @OneToMany(targetEntity="Bug", mappedBy="engineer")
+     * @var Bug[]
+     */
+    protected $assignedBugs;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->reportedBugs = new ArrayCollection();
+        $this->assignedBugs = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -45,5 +68,21 @@ class User
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @param Bug $bug
+     */
+    public function addReportedBug(Bug $bug)
+    {
+        $this->reportedBugs[] = $bug;
+    }
+
+    /**
+     * @param Bug $bug
+     */
+    public function assignedToBug(Bug $bug)
+    {
+        $this->assignedBugs[] = $bug;
     }
 }

@@ -6,6 +6,8 @@
  * Time: 18:07
  */
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity(repositoryClass="BugRepository") @Table(name="bugs")
  */
@@ -34,6 +36,32 @@ class Bug
      * @var string
      */
     protected $status;
+
+    /**
+     * @ManyToMany(targetEntity="Product")
+     * @var Product[]
+     */
+    protected $products;
+
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="assignedBugs")
+     * @var User
+     */
+    protected $engineer;
+
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="reportedBugs")
+     * @var User
+     */
+    protected $reporter;
+
+    /**
+     * Bug constructor.
+     */
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -89,5 +117,50 @@ class Bug
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @param User $engineer
+     */
+    public function setEngineer(User $engineer)
+    {
+        $this->engineer = $engineer;
+    }
+
+    /**
+     * @return User
+     */
+    public function getEngineer()
+    {
+        return $this->engineer;
+    }
+
+    /**
+     * @param User $reporter
+     */
+    public function setReporter(User $reporter)
+    {
+        $this->reporter = $reporter;
+    }
+
+    /**
+     * @return User
+     */
+    public function getReporter()
+    {
+        return $this->reporter;
+    }
+
+    public function assignToProduct(Product $product)
+    {
+        $this->products[] = $product;
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }
