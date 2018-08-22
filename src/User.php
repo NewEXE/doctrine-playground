@@ -38,6 +38,12 @@ class User
     protected $assignedBugs;
 
     /**
+     * @OneToMany(targetEntity="Task", mappedBy="user")
+     * @var Task[]
+     */
+    protected $tasks;
+
+    /**
      * User constructor.
      * @param string $name
      */
@@ -88,5 +94,13 @@ class User
     public function assignedToBug(Bug $bug)
     {
         $this->assignedBugs[] = $bug;
+    }
+
+    /**
+     * @param Task $task
+     */
+    public function addTask(Task $task)
+    {
+        $this->tasks[] = $task;
     }
 }
