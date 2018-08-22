@@ -39,9 +39,13 @@ class User
 
     /**
      * User constructor.
+     * @param string $name
      */
-    public function __construct()
+    public function __construct($name = null)
     {
+        if (is_string($name)) {
+            $this->setName($name);
+        }
         $this->reportedBugs = new ArrayCollection();
         $this->assignedBugs = new ArrayCollection();
     }

@@ -23,6 +23,13 @@ class Product
      */
     protected $name;
 
+    public function __construct($name = null)
+    {
+        if (is_string($name)) {
+            $this->setName($name);
+        }
+    }
+
     /**
      * @return int
      */

@@ -6,7 +6,7 @@
  * Time: 17:49
  */
 
-require_once '../bootstrap.php';
+require_once 'bootstrap.php';
 
 $id = $argv[1];
 
