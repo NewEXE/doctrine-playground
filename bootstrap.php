@@ -2,6 +2,7 @@
 // bootstrap.php
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\ClassLoader;
 
 require_once "vendor/autoload.php";
 
@@ -13,12 +14,10 @@ $config = Setup::createAnnotationMetadataConfiguration([__DIR__."/src"], $isDevM
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
 
 // database configuration parameters
-$conn = array(
-    'driver' => 'pdo_mysql',
-    'user'     => 'homestead',
-    'password' => 'secret',
-    'dbname'   => 'doctrine',
-);
+$dbParams = require 'config/php/db_params.php';
 
 // obtaining the entity manager
-$entityManager = EntityManager::create($conn, $config);
+$entityManager = EntityManager::create($dbParams, $config);
+
+$classLoader = new ClassLoader('Doctrine\DBAL\Migrations');
+$classLoader->register();
